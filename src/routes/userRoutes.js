@@ -5,10 +5,15 @@ const {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  searchUsers
 } = require('../controllers/userController');
 
-// Routes
+// Search route
+router.route('/search')
+  .get(searchUsers);
+
+// Standard CRUD routes
 router.route('/')
   .get(getAllUsers)
   .post(createUser);

@@ -5,10 +5,15 @@ const {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  searchProducts
 } = require('../controllers/productController');
 
-// Routes
+// Search route
+router.route('/search')
+  .get(searchProducts);
+
+// Standard CRUD routes
 router.route('/')
   .get(getAllProducts)
   .post(createProduct);

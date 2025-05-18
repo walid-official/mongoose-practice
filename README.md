@@ -62,7 +62,12 @@ A RESTful API built with Express.js and MongoDB (Mongoose) for managing users an
 
 ### Users
 
-- `GET /api/users` - Get all users
+- `GET /api/users` - Get all users (supports `?search=query` parameter for text search)
+- `GET /api/users/search?q=query` - Search users with full-text search
+  - Query parameters:
+    - `q` - Search query (required)
+    - `limit` - Number of results per page (default: 10)
+    - `page` - Page number (default: 1)
 - `GET /api/users/:id` - Get a single user
 - `POST /api/users` - Create a new user
 - `PUT /api/users/:id` - Update a user
@@ -70,7 +75,15 @@ A RESTful API built with Express.js and MongoDB (Mongoose) for managing users an
 
 ### Products
 
-- `GET /api/products` - Get all products
+- `GET /api/products` - Get all products (supports `?search=query` parameter for text search)
+- `GET /api/products/search?q=query` - Search products with full-text search
+  - Query parameters:
+    - `q` - Search query (required)
+    - `category` - Filter by category (optional)
+    - `minPrice` - Minimum price filter (optional)
+    - `maxPrice` - Maximum price filter (optional)
+    - `limit` - Number of results per page (default: 10)
+    - `page` - Page number (default: 1)
 - `GET /api/products/:id` - Get a single product
 - `POST /api/products` - Create a new product
 - `PUT /api/products/:id` - Update a product
@@ -109,6 +122,9 @@ This project uses MongoDB as its database. When the application starts, it autom
 2. Creates the following collections if they don't exist:
    - `users` - Stores user information
    - `products` - Stores product information
+3. Creates text indexes for full-text search functionality:
+   - User collection: Text index on `name`, `email`, and `address` fields
+   - Product collection: Text index on `name`, `description`, and `category` fields
 
 You can initialize the database with sample data using the provided script:
 ```
@@ -129,3 +145,18 @@ This script will:
 4. Delete the test records
 
 The script outputs detailed information about each operation for debugging purposes.
+
+## Testing Search Functionality
+
+A test script is provided to verify the full-text search functionality:
+```
+node src/scripts/testSearch.js
+```
+
+This script will:
+1. Create test data with searchable content
+2. Perform various text searches on users and products
+3. Demonstrate filtering and sorting by relevance
+4. Clean up the test data
+
+The script outputs detailed information about each search operation for debugging purposes.
